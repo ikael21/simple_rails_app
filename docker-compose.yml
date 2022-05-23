@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/rails-app
+      - bundle_cache:/bundle_cache
+    environment:
+      PIDFILE: /tmp/pids/server.pid
+      BUNDLE_PATH: /bundle_cache
+      GEM_HOME: /bundle_cache
+      GEM_PATH: /bundle_cache
+      RAILS_PORT: 3000
+      RUBYOPT: -W:no-deprecated -W:no-experimental
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+    tmpfs:
+      - /tmp/pids/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:11.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: always
+
+volumes:
+  bundle_cache:
+  db-data:
+    driver: local
