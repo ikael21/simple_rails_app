@@ -1,8 +1,9 @@
 # Ruby on Rails Tutorial sample application
-This is the sample application for
-[*Ruby on Rails Tutorial:
-Learn Web Development with Rails*](https://www.railstutorial.org/) (6th Edition)
+
+This is the sample application for<br>
+[*Ruby on Rails Tutorial: Learn Web Development with Rails*](https://www.railstutorial.org/) (6th Edition)
 by [Michael Hartl](https://www.michaelhartl.com/).
+
 ## Getting started
 To get started with the app, clone the repo and then install the needed gems:
 ```
@@ -20,5 +21,11 @@ If the test suite passes, you'll be ready to run the app in a local server:
 ```
 $ rails server
 ```
-For more information, see the
-[*Ruby on Rails Tutorial* book](https://www.railstutorial.org/book).
+If you have `docker` and `docker-compose` installed on your system,
+you can just run:
+```
+$ docker-compose run -d
+```
+You actually don't need to run `postgres container`.<br>
+Application runs in development mode and uses `sqlite3
+database` installed inside the container
