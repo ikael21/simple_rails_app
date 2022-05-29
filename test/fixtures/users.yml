@@ -2,3 +2,8 @@ spider:
   name: Peter Parker
   email: peter@example.com
   password_digest: <%= User.digest('password') %>
+
+archer:
+  name: Sterling Archer
+  email: duchess@example.gov
+  password_digest: <%= User.digest('password') %>
