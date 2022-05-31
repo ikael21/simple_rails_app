@@ -1,6 +1,6 @@
 # If the editor shows incorrect syntax, that's okay.
 # There's embedded ruby used to generate multiple users,
-# All the appearances of `<%= ... %>` will be parsed.
+# All the appearances of <%=%> will be parsed.
 
 spider:
   name: Peter Parker
@@ -16,5 +16,5 @@ archer:
 user_<%= n %>:
   name: <%= "User_#{n}" %>
   email: <%= "user-#{n}@example.com" %>
-  password_digest: <%= User.User.digest('password') %>
+  password_digest: <%= User.digest('password') %>
 <% end %>
