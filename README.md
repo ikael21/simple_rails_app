@@ -28,4 +28,8 @@ $ docker-compose run -d
 ```
 You actually don't need to run `postgres container`.<br>
 Application runs in development mode and uses `sqlite3
-database` installed inside the container
+database` installed inside the container.<br>
+So you can just run:
+```
+$ docker-compose run --rm -d -p 3000:3000 web
+```
