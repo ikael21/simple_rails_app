@@ -35,6 +35,9 @@ RUN \
 ####################################################################
 #                              MAIN STAGE                          #
 ####################################################################
+
+# TODO configure non-root user inside this container
+
 FROM ruby:2.7.5-alpine
 
 COPY --from=builder /usr/bin/sqlite3 /usr/bin/sqlite3
