@@ -178,6 +178,17 @@ input { height: auto !important; }
   span {
     margin-left: 20px;
     font-weight: normal;
+    a { float: right; }
+  }
+}
+
+@media (max-width: 380px) {
+  .checkbox {
+    span {
+      display: flex;
+      flex-direction: column;
+      a { float: none; }
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
 
   before_create :create_activation_digest
   before_save :downcase_email
@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
 
-  # INFO class methods scope
+  # NOTE: class methods scope
 
   class << self
     # returns the hash digest of the given string
@@ -31,7 +31,7 @@ class User < ApplicationRecord
     end
   end
 
-  # INFO instance methods
+  # NOTE: instance methods
 
   def remember
     self.remember_token = User.new_token
@@ -57,8 +57,22 @@ class User < ApplicationRecord
     UserMailer.account_activation(self).deliver_now
   end
 
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_columns(reset_digest: User.digest(reset_token),
+                   reset_sent_at: Time.zone.now)
+  end
 
-  # INFO private methods
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
+
+  # NOTE: private methods
 
   private
 
