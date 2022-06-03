@@ -3,6 +3,7 @@ require "test_helper"
 class UsersSignupTest < ActionDispatch::IntegrationTest
 
   def setup
+    @user = users(:spider)
     ActionMailer::Base.deliveries.clear
   end
 
@@ -19,6 +20,25 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_template "users/new"
     assert_select "div#error_explanation"
     assert_select "div.alert-danger"
+  end
+
+  test "logged in user must not be able to see signup page" do
+    log_in_as(@user)
+    get signup_path
+    assert_redirected_to root_url
+    assert_not flash.empty?
+  end
+
+  test "logged in user must not be able to sign up another account" do
+    log_in_as(@user)
+    assert_no_difference "User.count" do
+      post users_path, params: {
+        user: {
+          name: "Example User", email: "user@example.com",
+          password: "password", password_confirmation: "password"
+        }
+      }
+    end
   end
 
   test "valid signup information with account activation" do

@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
 
   # INFO class methods scope
+
   class << self
     # returns the hash digest of the given string
     def digest(string)
@@ -29,7 +30,6 @@ class User < ApplicationRecord
       SecureRandom.urlsafe_base64
     end
   end
-
 
   # INFO instance methods
 
