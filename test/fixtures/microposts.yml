@@ -1,0 +1,21 @@
+orange:
+  content: "I just ate an orange!"
+  created_at: <%= 10.minutes.ago %>
+  user: spider
+
+tau_mamifest:
+  content: "Check out the @rauday site by @mhartl: https://tauday.com"
+  created_at: <%= 3.years.ago %>
+  user: archer
+
+most_recent:
+  content: "Writing a short test"
+  created_at: <%= Time.zone.now %>
+  user: archer
+
+<% 30.times do |n| %>
+micropost_<%= n %>:
+  content: <%= Faker::Lorem.sentence(word_count: 5) %>
+  created_at: <%= 42.days.ago %>
+  user: spider
+<% end %>

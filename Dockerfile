@@ -55,7 +55,7 @@ ARG RAILS_ROOT=/rails-app
 ARG PACKAGES="vim openssl-dev postgresql-dev \
               build-base curl nodejs yarn less tzdata git \
               postgresql-client bash screen shared-mime-info \
-              sqlite sqlite-dev"
+              sqlite sqlite-dev imagemagick"
 
 RUN \
   apk update && \
