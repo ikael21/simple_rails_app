@@ -24,8 +24,12 @@ module SessionsHelper
     end
   end
 
+  def current_user?(user)
+    user == current_user
+  end
+
   def correct_user?(user)
-    user && user == current_user
+    user && user == current_user()
   end
 
   # returns true if the user is logged in, false otherwise

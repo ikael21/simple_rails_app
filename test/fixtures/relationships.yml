@@ -1,0 +1,11 @@
+two:
+  follower: spider
+  followed: wizard
+
+three:
+  follower: archer
+  followed: spider
+
+four:
+  follower: wizard
+  followed: spider
