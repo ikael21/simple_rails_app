@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
   def setup
     @user = User.new(
-      name: "Example User", email: "user@example.com",
+    name: "Example User", email: "user@example.com",
       password: "foobar", password_confirmation: "foobar"
     )
   end
@@ -94,12 +94,33 @@ class UserTest < ActiveSupport::TestCase
   test "should follow and unfollow a user" do
     user1 = users(:spider)
     user2 = users(:archer)
-    
+
     assert_not user1.following?(user2)
     user1.follow(user2)
     assert user1.following?(user2)
     assert user2.followers.include?(user1)
     user1.unfollow(user2)
     assert_not user1.following?(user2)
+  end
+
+  test "feed should have the right posts" do
+    spider = users(:spider)
+    archer = users(:archer)
+    wizard = users(:wizard)
+
+    # posts from followed user
+    wizard.microposts.each do |post_following|
+      assert spider.feed.include?(post_following)
+    end
+
+    # posts from self
+    spider .microposts.each do |post_self|
+      assert spider.feed.include?(post_self)
+    end
+
+    # posts from unfollowed user
+    archer.microposts.each do |post_unfollowed|
+      assert_not spider.feed.include?(post_unfollowed)
+    end
   end
 end
