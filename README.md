@@ -4,6 +4,9 @@ This is the sample application for<br>
 [*Ruby on Rails Tutorial: Learn Web Development with Rails*](https://www.railstutorial.org/) (6th Edition)
 by [Michael Hartl](https://www.michaelhartl.com/).
 
+You can check the site following this link:
+https://ikael.herokuapp.com
+
 ## Getting started
 To get started with the app, clone the repo and then install the needed gems:
 ```
