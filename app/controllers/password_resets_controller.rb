@@ -1,10 +1,9 @@
 class PasswordResetsController < ApplicationController
-  before_action :get_user, only: [:edit, :update]
-  before_action :valid_user, only: [:edit, :update]
-  before_action :check_expiration, only: [:edit, :update]
+  before_action :get_user, only: %i(edit update)
+  before_action :valid_user, only: %i(edit update)
+  before_action :check_expiration, only: %i(edit update)
 
-  def new
-  end
+  def new; end
 
   def create
     @user = User.find_by(email: params[:password_reset][:email].downcase)
@@ -19,8 +18,7 @@ class PasswordResetsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if params[:user][:password].empty?
@@ -57,9 +55,9 @@ class PasswordResetsController < ApplicationController
 
     # checks expiration of reset token
     def check_expiration
-      if @user.password_reset_expired?
-        flash[:danger] = "Password reset has expired."
-        redirect_to new_password_reset_url
-      end
+      return unless @user.password_reset_expired?
+
+      flash[:danger] = "Password reset has expired."
+      redirect_to new_password_reset_url
     end
 end

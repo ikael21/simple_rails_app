@@ -1,10 +1,8 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update,
-                                        :index, :destroy,
-                                        :following, :followers]
-  before_action :correct_user, only: [:edit, :update]
+  before_action :logged_in_user, only: %i(edit update index destroy following followers)
+  before_action :correct_user, only: %i(edit update)
   before_action :admin_user, only: :destroy
-  before_action :logged_out_user, only: [:new, :create]
+  before_action :logged_out_user, only: %i(new create)
 
   def index
     @users = User.where(activated: true).paginate(page: params[:page])
@@ -68,10 +66,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      permitted_params = [
-        :name, :email,
-        :password, :password_confirmation
-      ]
+      permitted_params = %i(name email password password_confirmation)
       params.require(:user).permit(permitted_params)
     end
 
@@ -88,9 +83,9 @@ class UsersController < ApplicationController
 
     # confirms that user is logged out when signing up a new account
     def logged_out_user
-      if logged_in?
-        flash[:warning] = "Log out to create new account."
-        redirect_to(root_url)
-      end
+      return unless logged_in?
+
+      flash[:warning] = "Log out to create new account."
+      redirect_to(root_url)
     end
 end
