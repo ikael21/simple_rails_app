@@ -5,7 +5,7 @@ This is the sample application for<br>
 by [Michael Hartl](https://www.michaelhartl.com/).
 
 You can check the site following this link:
-https://ikael.herokuapp.com
+[ikael-aka-twitter.onrender.com](https://ikael-aka-twitter.onrender.com)
 
 ## Getting started
 To get started with the app, clone the repo and then install the needed gems:
