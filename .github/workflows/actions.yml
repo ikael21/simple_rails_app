@@ -1,0 +1,45 @@
+name: "Ruby on Rails CI"
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  project-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11.4
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: rails_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      - name: Gems installation
+        uses: ruby/setup-ruby@0a29871fe2b0200a17a4497bae54fe5df0d973aa
+        with:
+          bundler-cache: true
+
+      - name: Yarn packages installation
+        run: yarn install --frozen-lockfile
+
+      # - name: Rubocop
+      #   run: bundle exec rubocop
+
+      - name: Database schema loading
+        run: bin/rails db:schema:load
+
+      - name: Tests
+        run: bin/rails test
+
+      - name: Coverage
+        uses: joshmfrankel/simplecov-check-action@1.0.0

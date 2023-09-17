@@ -42,3 +42,6 @@ yarn-debug.log*
 # irb config and history
 .irbrc
 .irb_history
+
+.DS_Store
+coverage

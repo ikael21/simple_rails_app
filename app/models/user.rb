@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
 
   has_many :microposts, dependent: :destroy
-  has_many :active_relationships, class_name: "Relationship",
-                                  foreign_key: "follower_id",
+  has_many :active_relationships, class_name: 'Relationship',
+                                  foreign_key: 'follower_id',
                                   dependent: :destroy
-  has_many :passive_relationships, class_name: "Relationship",
-                                   foreign_key: "followed_id",
+  has_many :passive_relationships, class_name: 'Relationship',
+                                   foreign_key: 'followed_id',
                                    dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships
@@ -17,21 +19,23 @@ class User < ApplicationRecord
   has_secure_password
 
   validates :name, presence: true, length: { maximum: 50 }
-  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
+  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d-]+(\.[a-z\d-]+)*\.[a-z]+\z/i.freeze
   validates :email, presence: true,
                     length: { maximum: 255 },
                     format: { with: VALID_EMAIL },
                     uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
-
   # NOTE: class methods scope
 
   class << self
     # returns the hash digest of the given string
     def digest(string)
-      cost = ActiveModel::SecurePassword.min_cost ?
-        BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
+      cost = if ActiveModel::SecurePassword.min_cost
+               BCrypt::Engine::MIN_COST
+             else
+               BCrypt::Engine.cost
+             end
       BCrypt::Password.create(string, cost: cost)
     end
 
@@ -50,8 +54,9 @@ class User < ApplicationRecord
 
   # returns true if the given token matches the digest
   def authenticated?(attribute, token)
-    digest = self.send("#{attribute}_digest")
+    digest = send("#{attribute}_digest")
     return false if digest.nil?
+
     BCrypt::Password.new(digest).is_password?(token)
   end
 
@@ -82,8 +87,8 @@ class User < ApplicationRecord
   end
 
   def feed
-    part_of_feed = "relationships.follower_id = :id or microposts.user_id = :id"
-    Micropost.joins(user: :followers).where(part_of_feed, { id: id } )
+    part_of_feed = 'relationships.follower_id = :id or microposts.user_id = :id'
+    Micropost.joins(user: :followers).where(part_of_feed, { id: id })
   end
 
   def follow(other_user)
@@ -98,17 +103,16 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
-
   # NOTE: private methods
 
   private
 
-    def downcase_email
-      email.downcase!
-    end
+  def downcase_email
+    email.downcase!
+  end
 
-    def create_activation_digest
-      self.activation_token = User.new_token
-      self.activation_digest = User.digest(activation_token)
-    end
+  def create_activation_digest
+    self.activation_token = User.new_token
+    self.activation_digest = User.digest(activation_token)
+  end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root   'static_pages#home'
 
@@ -14,8 +16,8 @@ Rails.application.routes.draw do
       get :following, :followers
     end
   end
-  resources :account_activations, only: %i(index)
-  resources :password_resets,     only: %i(new create edit update)
-  resources :microposts,          only: %i(create destroy)
-  resources :relationships,       only: %i(create destroy)
+  resources :account_activations, only: %i[edit]
+  resources :password_resets,     only: %i[new create edit update]
+  resources :microposts,          only: %i[create destroy]
+  resources :relationships,       only: %i[create destroy]
 end

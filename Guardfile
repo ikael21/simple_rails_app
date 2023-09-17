@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # This is the Guardfile for the 7th edition of the Rails Tutorial.
 # For the 6th edition, see here:
 # https://github.com/learnenough/sample_app_6th_ed/blob/main/Guardfile
 
-require "active_support/inflector"
+require 'active_support/inflector'
 # Defines the matching rules for Guard.
 guard :minitest, all_on_start: false do
   watch(%r{^test/(.*)/?(.*)_test\.rb$})
@@ -11,7 +13,7 @@ guard :minitest, all_on_start: false do
   watch(%r{app/views/layouts/*}) { interface_tests }
   watch(%r{^app/models/(.*?)\.rb$}) do |matches|
     ["test/models/#{matches[1]}_test.rb",
-     "test/integration/microposts_interface_test.rb"]
+     'test/integration/microposts_interface_test.rb']
   end
   watch(%r{^test/fixtures/(.*?)\.yml$}) do |matches|
     "test/models/#{matches[1].singularize}_test.rb"
@@ -27,7 +29,7 @@ guard :minitest, all_on_start: false do
   end
   watch(%r{^app/views/([^/]*?)/.*\.html\.erb$}) do |matches|
     ["test/controllers/#{matches[1]}_controller_test.rb"] +
-    integration_tests(matches[1])
+      integration_tests(matches[1])
   end
   watch(%r{^app/helpers/(.*?)_helper\.rb$}) do |matches|
     integration_tests(matches[1])
@@ -47,7 +49,7 @@ guard :minitest, all_on_start: false do
   end
   watch(%r{app/views/users/*}) do
     resource_tests('users') +
-    ['test/integration/microposts_interface_test.rb']
+      ['test/integration/microposts_interface_test.rb']
   end
   watch('app/controllers/relationships_controller.rb') do
     ['test/controllers/relationships_controller_test.rb',
@@ -58,7 +60,7 @@ end
 # Returns the integration tests corresponding to the given resource.
 def integration_tests(resource = :all)
   if resource == :all
-    Dir["test/integration/*"]
+    Dir['test/integration/*']
   else
     Dir["test/integration/#{resource}_*.rb"]
   end
@@ -66,7 +68,7 @@ end
 
 # Returns all tests that hit the interface.
 def interface_tests
-  integration_tests << "test/controllers"
+  integration_tests << 'test/controllers'
 end
 
 # Returns the controller tests corresponding to the given resource.

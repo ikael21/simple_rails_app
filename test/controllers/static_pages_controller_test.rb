@@ -1,23 +1,24 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
-
-  test "should get root" do
+  test 'should get root' do
     get root_path
     assert_response :success
   end
 
-  test "should get help" do
+  test 'should get help' do
     get help_path
     assert_response :success
   end
 
-  test "should get about" do
+  test 'should get about' do
     get about_path
     assert_response :success
   end
 
-  test "should get contact" do
+  test 'should get contact' do
     get contact_path
     assert_response :success
   end

@@ -1,36 +1,37 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class UsersIndexTest < ActionDispatch::IntegrationTest
-
   def setup
     @admin = users(:spider)
     @non_admin = users(:archer)
   end
 
-  test "index as non-admin including pagination without delete links" do
+  test 'index as non-admin including pagination without delete links' do
     log_in_as(@non_admin)
     get users_path
-    assert_template "users/index"
-    assert_select "div.pagination", count: 2
+    assert_template 'users/index'
+    assert_select 'div.pagination', count: 2
     User.paginate(page: 1).each do |user|
-      assert_select "a[href=?]", user_path(user), text: user.name
+      assert_select 'a[href=?]', user_path(user), text: user.name
       assert user.activated?
     end
-    assert_select "a", text: "delete", count: 0
+    assert_select 'a', text: 'delete', count: 0
   end
 
-  test "index as admin including pagination and delete links" do
+  test 'index as admin including pagination and delete links' do
     log_in_as(@admin)
     get users_path
-    assert_template "users/index"
-    assert_select "div.pagination", count: 2
+    assert_template 'users/index'
+    assert_select 'div.pagination', count: 2
     User.paginate(page: 1).each do |user|
       unless user == @admin
-        assert_select "a[href=?]", user_path(user), text: "delete"
+        assert_select 'a[href=?]', user_path(user), text: 'delete'
         assert user.activated?
       end
     end
-    assert_difference "User.count", -1 do
+    assert_difference 'User.count', -1 do
       delete user_path(@non_admin)
     end
   end
